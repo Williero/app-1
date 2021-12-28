@@ -27,7 +27,7 @@ export const generatePreview = async (url, ext, type, width, height, resolve, re
 
   // check either first param is url or hash
   if (!isValidURL(url)) {
-    url = `${storageHost}/ipfs/${url}`;
+    url = `${storageHost}/${url}/preview.${ext}`;
   }
 
   // create URL
@@ -82,6 +82,9 @@ function isValidURL(string) {
 
 export const preview = async (url, ext, type, width, height) => {
   return new Promise((resolve, reject) => {
+    if(!['png', 'jpg', 'jpeg', 'vox', 'vrm', 'glb', 'webm', 'gif'].includes(ext)){
+      reject('Undefined Extension')
+    }
     if (!running) {
       generatePreview(url, ext, type, width, height, resolve, reject);
     } else {
